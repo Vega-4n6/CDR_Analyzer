@@ -63,9 +63,9 @@ def analyze_cdr_data(df):
             # Code for IMEI analysis
             df["IMEI"] = df["IMEI"].str.replace(" ","")
             df["IMEI"] = pd.to_numeric(df["IMEI"], errors='coerce')
-            print("\nCount of NaN values in each column:\n", df.isna().sum())
-            print("\nColumn DataType is:\n",df["IMEI"].dtype)
-            print("\nSample IMEIs:\n",df["IMEI"].sample(5))
+            #print("\nCount of NaN values in each column:\n", df.isna().sum())
+            #print("\nColumn DataType is:\n",df["IMEI"].dtype)
+            #print("\nSample IMEIs:\n",df["IMEI"].sample(5))
             analyze_imei_data(df)
         
         elif choice == "3": 
