@@ -38,7 +38,9 @@ LAT
 LNG
 ADDR
 
-Sample Column Header: PartyA,   PartyB,   IMSI,   IMEI,   LogDate,   INBOUND_OUTBOUND_IND,   Call_Network_Volume,   LAT,   LNG,   CALL_TYPE,   ADDR,,, 
+**##Sample Column Header:** 
+
+PartyA,   PartyB,   IMSI,   IMEI,   LogDate,   INBOUND_OUTBOUND_IND,   Call_Network_Volume,   LAT,   LNG,   CALL_TYPE,   ADDR,,, 
 (Atleast have above mentioned columns with above mentioned named other columns are ignore for now)
 
 Column header: The first row of the CSV file must contain column headers (names) for each data field.
