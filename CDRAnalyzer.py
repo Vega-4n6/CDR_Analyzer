@@ -41,8 +41,8 @@ def format_imei(imei):
 
 def print_data(df):
     df["IMEI"] = df["IMEI"].apply(format_imei)  # Perils of not preprocessing data properly
-    print("\nImported Data Preview:\n")
-    print(df.to_string())
+    #print("\nImported Data Preview:\n")
+    #print(df.to_string())
 
 def analyze_cdr_data(df):
     while True:
