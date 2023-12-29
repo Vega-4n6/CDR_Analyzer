@@ -2,7 +2,7 @@
 
 **A Python tool for analyzing Call Detail Records (CDRs) to extract valuable insights.**
 
-**Call Detail Records (CDRs) act as a digital breadcrumb trail, and their analysis plays a crucial role in cyber investigations. CDRs offer investigators a detailed picture of communication patterns, revealing connections between individuals, devices, and locations. This information is invaluable in reconstructing timelines of events, identifying perpetrators, and uncovering hidden networks within cybercriminal activities.**
+Call Detail Records (CDRs) act as a digital breadcrumb trail, and their analysis plays a crucial role in cyber investigations. CDRs offer investigators a detailed picture of communication patterns, revealing connections between individuals, devices, and locations. This information is invaluable in reconstructing timelines of events, identifying perpetrators, and uncovering hidden networks within cybercriminal activities.
 
 **## Features**
 
