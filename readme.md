@@ -38,6 +38,9 @@ LAT
 LNG
 ADDR
 
+Sample Column Header: PartyA,   PartyB,   IMSI,   IMEI,   LogDate,   INBOUND_OUTBOUND_IND,   Call_Network_Volume,   LAT,   LNG,   CALL_TYPE,   ADDR,,, 
+(Atleast have above mentioned columns with above mentioned named other columns are ignore for now)
+
 Column header: The first row of the CSV file must contain column headers (names) for each data field.
 Data format: Ensure that the data within each column is of the appropriate format (e.g., numbers for IMEI, timestamps for LogDate).
 Missing values: Missing values should be represented as empty cells or using a consistent placeholder (e.g., "N/A").
