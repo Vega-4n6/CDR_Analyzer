@@ -55,4 +55,6 @@ Haider Ali
 
 **## Contact**
 
-For any queries or feedback, please reach out to [haider.ali.siddiki@gmail.com](https://www.linkedin.com/in/haideralisiddiki/)https://www.linkedin.com/in/haideralisiddiki/
+For any queries or feedback, please reach out to 
+[haider.ali.siddiki@gmail.com]   
+[https://www.linkedin.com/in/haideralisiddiki/]
