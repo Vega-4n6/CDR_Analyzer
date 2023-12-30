@@ -1,3 +1,6 @@
+
+![3](https://github.com/Vega-4n6/CDR_Analyzer/assets/84527483/407b82d1-3065-45ad-891b-2b5efcdc3b79)
+
 **# CDR Analyzer V.1.0 by Haider Ali**
 
 **A Python tool for analyzing Call Detail Records (CDRs) to extract valuable insights.**
@@ -8,9 +11,20 @@ Call Detail Records (CDRs) act as a digital breadcrumb trail, and their analysis
 
 - Loads and processes CDR data from CSV files.
 - Presents a user-friendly menu for selecting analysis options.
+
+  ![2](https://github.com/Vega-4n6/CDR_Analyzer/assets/84527483/261c1331-ffed-460e-98a0-db760673cb0a)
+
 - Analyzes frequent callers and their communication patterns.
 - Conducts IMEI analysis to identify unique devices and their usage periods.
+
+
+  ![5](https://github.com/Vega-4n6/CDR_Analyzer/assets/84527483/ffe2c32d-6e82-413d-b34f-b2bf4dd7fadc)
+
 - Performs location analysis to determine frequently visited places and their timestamps.
+
+![4](https://github.com/Vega-4n6/CDR_Analyzer/assets/84527483/0a799eec-da33-403e-9d8b-0489e5047b0a)
+
+  
 - Allows searching for specific contacts or dates within the CDR data.
 - **Future feature:** Visualizes location data on interactive maps (using folium).
 
@@ -79,10 +93,11 @@ We welcome contributions! Please feel free to submit pull requests or open issue
 - Better exceptions handling
   
 **## Author**
-
 Haider Ali - Vega4n6
 haider.ali.siddiki@gmail.com
 [https://www.linkedin.com/in/haideralisiddiki/]
 For any queries or feedback.
- 
+
+
+##**For noobs like me if you got struck somewhere feel free to DM me I'll try to sort things out to the best of my ability.**##
 
