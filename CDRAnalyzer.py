@@ -41,28 +41,33 @@ def format_imei(imei):
 
 def print_data(df):
     df["IMEI"] = df["IMEI"].apply(format_imei)  # Perils of not preprocessing data properly
-    #print("\nImported Data Preview:\n")
-    #print(df.to_string())
+    print("\nImported Data Preview:\n")
+    print(df.to_string())
 
 def analyze_cdr_data(df):
     while True:
         print("\nSelect analysis option:")
+        print("0. Data Preview")
         print("1. Identify frequent callers")
         print("2. Conduct IMEI analysis")
         print("3. Location Analysis")
         print("4. Search for Specific Contact")
         print("5. Search for Sepecific Date")
-        print("0. Exit")
+        print("9. Exit")
         choice = input("Enter your choice: ")
 
-        if choice == "1":   
+        if choice == "0":
+            # Code for Data Preview
+            print_data(df)
+                        
+        elif choice == "1": 
             # Code for frequent caller analysis
             identify_frequent_callers(df)
             
         elif choice == "2": 
             # Code for IMEI analysis
-            df["IMEI"] = df["IMEI"].str.replace(" ","")
-            df["IMEI"] = pd.to_numeric(df["IMEI"], errors='coerce')
+            #df["IMEI"] = df["IMEI"].str.replace(" ","")
+            #df["IMEI"] = pd.to_numeric(df["IMEI"], errors='coerce')
             print("\nCount of NaN values in each column:\n", df.isna().sum())
             print("\nColumn DataType is:\n",df["IMEI"].dtype)
             print("\nSample IMEIs:\n",df["IMEI"].sample(5))
@@ -79,7 +84,7 @@ def analyze_cdr_data(df):
             # Code for date search
             analyze_location_data(df)
         
-        elif choice == "0":
+        elif choice == "9":
             break
         else:
             print("Invalid choice. Please try again.")
@@ -95,7 +100,7 @@ def identify_frequent_callers(df):
 
         print("\n______________________________________________________________________________________________________")
         print("Number\t\t\tFirst Appearance in CDR\t\tLast Appearance in CDR\t\tComm Frequency")
-        print(f"{number}\t\t{first_appearance}\t\t{last_appearance}\t\t{frequency}")
+        print(f"{number}\t\t{first_appearance}\t\t{last_appearance}\t\t\t{frequency}")
         print("_________________________________________________________________________________________________________")
 
 def analyze_imei_data(df):
@@ -178,9 +183,7 @@ def main():
     print_banner()
     file_path = input("Enter the path to the CDR data file: ")
     df = load_cdr_data(file_path)
-    print_data(df)
     analyze_cdr_data(df)
 
 if __name__ == "__main__":
     main()
-
