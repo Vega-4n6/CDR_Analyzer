@@ -1,6 +1,5 @@
 
-![Two](https://github.com/Vega-4n6/CDR_Analyzer/assets/84527483/0aec2d3d-0892-4dc3-8641-08c57d9274c2)
-
+![Screenshot 2023-12-31 002845](https://github.com/Vega-4n6/CDR_Analyzer/assets/84527483/8131510e-3b65-4703-b5b6-f2fd13d274ce)
 
 **# CDR Analyzer V.1.0 by Haider Ali**
 
