@@ -25,9 +25,9 @@ def print_data(df):
 
 
 def data_standardization(df):
-    print("Current column names and data types:")
+    print("\nColumn names and data types of uploaded CSV file:")
     for col_name, dtype in df.dtypes.items():
-        print(f"{col_name} ({dtype})")
+        print(f"({dtype}) \t\t {col_name}")
 
     expected_columns = {  # Unindent to function level
         "PartyA": None,
@@ -38,7 +38,16 @@ def data_standardization(df):
         "LAT": None,
         "ADDR": None,
     }
-
+    print("\n\nFollowing columns are required by this code to work properly\n")
+    print("PartyA:\t\t Column containing MSISDN (Phone Number) of the person whose CDR is under analysis")
+    print("PartyB:\t\t Column containing MSISDN (Phone Number) of communication parties")
+    print("LogDate:\t Column containing Dates at which the event is logged. Most commonly available is CALL_ORIGINATING_TIME")
+    print("IMEI:\t\t Column containing IMEI of the used Device")
+    print("LNG:\t\t Column containing Longitude of the tower location")
+    print("LAT:\t\t Column containing lattitude of the tower location")
+    print("ADDR:\t\t Column containing Address of the tower location")
+    print("\nIdentify these columns in your code and input there names\n")
+    
     for col_name in expected_columns.keys():
         while True:
             user_input = input(f"Which column is {col_name}? ")
@@ -193,7 +202,7 @@ def analyze_imei_data(df):
 
         print("\n________________________________________________________________________________________________________")
         print("IMEI\t\t\tFirst use\t\tLast use")
-        print(f"{int(imei)}\t\t{first_appearance}\t\t{last_appearance}")
+        print(f"{(imei)}\t\t{first_appearance}\t\t{last_appearance}")
         print("_________________________________________________________________________________________________________")
 
 def analyze_location_data(df):
