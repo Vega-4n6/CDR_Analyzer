@@ -18,17 +18,95 @@ def fancy_banner(banner_text, font_name="slant", enhancements=True):
         banner = "\n".join(enhanced_banner)
     return banner
 
-def load_cdr_data(file_path):   #creating Dataframe df
+def print_data(df):
+    #df["IMEI"] = df["IMEI"].apply(format_imei)  # Perils of not preprocessing data properly
+    print("\nImported Data Preview:\n")
+    print(df.to_string())
+
+
+def data_standardization(df):
+    print("Current column names and data types:")
+    for col_name, dtype in df.dtypes.items():
+        print(f"{col_name} ({dtype})")
+
+    expected_columns = {  # Unindent to function level
+        "PartyA": None,
+        "PartyB": None,
+        "LogDate": None,
+        "IMEI": None,
+        "LNG": None,
+        "LAT": None,
+        "ADDR": None,
+    }
+
+    for col_name in expected_columns.keys():
+        while True:
+            user_input = input(f"Which column is {col_name}? ")
+            if user_input in df.columns:
+                expected_columns[col_name] = user_input
+                break
+            else:
+                print(f"Invalid column name. Please enter a valid column from the list.")
+
+    # Rename columns based on user input
+    df.rename(columns=expected_columns, inplace=True)
+
+    # Check for empty cells in expected columns
+    empty_cells = df[expected_columns.values()].isnull().sum()
+    print("Empty cells in expected columns:")
+    print(empty_cells)
+
+    # Print stats for expected columns
+    print("Stats for expected columns:")
+    print(df[expected_columns.values()].describe())
+
+    # Convert IMEI column to int64
+    print("Number of NA values in IMEI column:", df["IMEI"].isna().sum())
+    df["IMEI"] = df["IMEI"].astype("string")  # Cast to string dtype
+    df["IMEI"].fillna("-1", inplace=True)
+
+    #print("Number of inf values in IMEI column:", df["IMEI"].isinf().sum())
+    if df["IMEI"].dtype == "float64":
+        df["IMEI"] = df["IMEI"].astype("int64")
+    df = df[expected_columns.values()]
+    return df
+
+def load_cdr_data(file_path):
     try:
         df = pd.read_csv(file_path)
-        relevant_columns = ["PartyA", "PartyB", "IMEI", "LogDate", "LAT", "LNG", "ADDR"]
-        df = df[relevant_columns]  # Select only the relevant columns
-        return df
+        print("Data loaded successfully.")
+
+        while True:
+            is_formatted = input("Is the data formatted as per code requirements (1 for Yes, 0 for No)? ")
+            if is_formatted in ["0", "1"]:
+                break
+            else:
+                print("Invalid input. Please enter 1 or 0.")
+
+        if is_formatted == "1":
+            return df
+        else:
+            df = data_standardization(df)
+            return df
+
     except FileNotFoundError:
         print("Error: File not found. Please check the file path.")
         return None
     except pd.errors.EmptyDataError:
-        print("Error: The CSV file is empty.")
+        print("Error: File is empty.")
+        return None
+    except Exception as e:
+        print(f"Error loading data: {e}")
+        return None
+
+    except FileNotFoundError:
+        print("Error: File not found. Please check the file path.")
+        return None
+    except pd.errors.EmptyDataError:
+        print("Error: File is empty.")
+        return None
+    except Exception as e:
+        print(f"Error loading data: {e}")
         return None
 
 def format_imei(imei):
@@ -40,7 +118,7 @@ def format_imei(imei):
         return formatted_imei
 
 def print_data(df):
-    df["IMEI"] = df["IMEI"].apply(format_imei)  # Perils of not preprocessing data properly
+    #df["IMEI"] = df["IMEI"].apply(format_imei)  # Perils of not preprocessing data properly
     print("\nImported Data Preview:\n")
     print(df.to_string())
 
