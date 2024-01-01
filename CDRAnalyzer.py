@@ -78,21 +78,24 @@ def data_standardization(df):
     return df
 """
 def data_standardization(df):
+    print("\nColumn names and data types of uploaded CSV file:")
+    for col_name, dtype in df.dtypes.items():
+        print(f"({dtype}) \t\t {col_name}")
     # Prompt user for original column names
     print("\n\nFollowing columns are required by this code to work properly\n")
-    print("Column 1.A Number:\t\t Column containing MSISDN (Phone Number) of the person whose CDR is under analysis")
-    print("Column 2.B Number:\t\t Column containing MSISDN (Phone Number) of communication parties")
+    print("Column 1.A Number:\t Column containing MSISDN (Phone Number) of the person whose CDR is under analysis")
+    print("Column 2.B Number:\t Column containing MSISDN (Phone Number) of communication parties")
     print("Column 3.Start Time:\t Column containing Dates at which the event is logged. Most commonly available is CALL_ORIGINATING_TIME")
     print("Column 4.IMEI:\t\t Column containing IMEI of the used Device")
-    print("Column 5.Longitude:\t\t Column containing Longitude of the tower location")
-    print("Column 6.Latitude:\t\t Column containing lattitude of the tower location")
-    print("Column 7.Location:\t\t Column containing Address of the tower location")
+    print("Column 5.Longitude:\t Column containing Longitude of the tower location")
+    print("Column 6.Latitude:\t Column containing lattitude of the tower location")
+    print("Column 7.Location:\t Column containing Address of the tower location")
     print("\nIdentify these columns in your data and input their names in folloing prompt\n")
 
     expected_columns = {
-        "A Number": "Caller's Number",  # Map expected names to descriptive prompts
-        "B Number": "Receiver's Number",
-        "Start Time": "Call Start Time",
+        "A Number": "Caller's Number - Party A",  # Map expected names to descriptive prompts
+        "B Number": "Receiver's Number - Party B",
+        "Start Time": "Data Log Date",
         "IMEI": "Device IMEI",
         "Longitude": "Longitude",
         "Latitude": "Latitude",
@@ -352,7 +355,7 @@ def analyze_location_data(df):
     print("______________________________________________________________________________\n\n")
 
     #Will have to revisit this part
-    # Create a base map centered on the first location
+    #Create a base map centered on the first location
     #print(top_locations.iloc[0, "lat"])    
     #map = folium.Map(location=[int(top_locations.iloc[0, "lat"]), int(top_locations.iloc[0, "lng"])], zoom_start=12)
     # Add markers for each top location
