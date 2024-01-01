@@ -18,34 +18,30 @@ def fancy_banner(banner_text, font_name="slant", enhancements=True):
         banner = "\n".join(enhanced_banner)
     return banner
 
-def print_data(df):
-    #df["IMEI"] = df["IMEI"].apply(format_imei)  # Perils of not preprocessing data properly
-    print("\nImported Data Preview:\n")
-    print(df.to_string())
 
-
+"""
 def data_standardization(df):
     print("\nColumn names and data types of uploaded CSV file:")
     for col_name, dtype in df.dtypes.items():
         print(f"({dtype}) \t\t {col_name}")
 
     expected_columns = {  # Unindent to function level
-        "PartyA": None,
-        "PartyB": None,
-        "LogDate": None,
+        "A Number": None,
+        "B Number": None,
+        "Start Time": None,
         "IMEI": None,
-        "LNG": None,
-        "LAT": None,
-        "ADDR": None,
+        "Longitude": None,
+        "Latitude": None,
+        "Location": None,
     }
     print("\n\nFollowing columns are required by this code to work properly\n")
-    print("PartyA:\t\t Column containing MSISDN (Phone Number) of the person whose CDR is under analysis")
-    print("PartyB:\t\t Column containing MSISDN (Phone Number) of communication parties")
-    print("LogDate:\t Column containing Dates at which the event is logged. Most commonly available is CALL_ORIGINATING_TIME")
+    print("A Number:\t\t Column containing MSISDN (Phone Number) of the person whose CDR is under analysis")
+    print("B Number:\t\t Column containing MSISDN (Phone Number) of communication parties")
+    print("Start Time:\t Column containing Dates at which the event is logged. Most commonly available is CALL_ORIGINATING_TIME")
     print("IMEI:\t\t Column containing IMEI of the used Device")
-    print("LNG:\t\t Column containing Longitude of the tower location")
-    print("LAT:\t\t Column containing lattitude of the tower location")
-    print("ADDR:\t\t Column containing Address of the tower location")
+    print("Longitude:\t\t Column containing Longitude of the tower location")
+    print("Latitude:\t\t Column containing lattitude of the tower location")
+    print("Location:\t\t Column containing Address of the tower location")
     print("\nIdentify these columns in your code and input there names\n")
     
     for col_name in expected_columns.keys():
@@ -58,6 +54,7 @@ def data_standardization(df):
                 print(f"Invalid column name. Please enter a valid column from the list.")
 
     # Rename columns based on user input
+    print(expected_columns[col_name])
     df.rename(columns=expected_columns, inplace=True)
 
     # Check for empty cells in expected columns
@@ -75,10 +72,51 @@ def data_standardization(df):
     df["IMEI"].fillna("-1", inplace=True)
 
     #print("Number of inf values in IMEI column:", df["IMEI"].isinf().sum())
-    if df["IMEI"].dtype == "float64":
-        df["IMEI"] = df["IMEI"].astype("int64")
+    #if df["IMEI"].dtype == "float64":
+    #    df["IMEI"] = df["IMEI"].astype("int64")
     df = df[expected_columns.values()]
     return df
+"""
+def data_standardization(df):
+    # Prompt user for original column names
+    print("\n\nFollowing columns are required by this code to work properly\n")
+    print("Column 1.A Number:\t\t Column containing MSISDN (Phone Number) of the person whose CDR is under analysis")
+    print("Column 2.B Number:\t\t Column containing MSISDN (Phone Number) of communication parties")
+    print("Column 3.Start Time:\t Column containing Dates at which the event is logged. Most commonly available is CALL_ORIGINATING_TIME")
+    print("Column 4.IMEI:\t\t Column containing IMEI of the used Device")
+    print("Column 5.Longitude:\t\t Column containing Longitude of the tower location")
+    print("Column 6.Latitude:\t\t Column containing lattitude of the tower location")
+    print("Column 7.Location:\t\t Column containing Address of the tower location")
+    print("\nIdentify these columns in your data and input their names in folloing prompt\n")
+
+    expected_columns = {
+        "A Number": "Caller's Number",  # Map expected names to descriptive prompts
+        "B Number": "Receiver's Number",
+        "Start Time": "Call Start Time",
+        "IMEI": "Device IMEI",
+        "Longitude": "Longitude",
+        "Latitude": "Latitude",
+        "Location": "Location",
+    }
+
+    # Prompt user for original column names based on expected names
+    original_columns = {}
+    for expected_name, prompt_name in expected_columns.items():
+        while True:
+            col_name = input(f"Enter the name of the column containing {prompt_name}: ")
+            if col_name in df.columns:
+                original_columns[expected_name] = col_name
+                break
+            else:
+                print("Invalid column name. Please enter a valid column from the DataFrame.")
+
+    # Select and rename the desired columns
+    selected_columns = list(original_columns.values())
+    df = df[selected_columns]
+    df.columns = list(expected_columns.keys())  # Use expected names for consistency
+
+    return df
+
 
 def load_cdr_data(file_path):
     try:
@@ -125,11 +163,12 @@ def format_imei(imei):
         formatted_imei = "{:015d}".format(int(imei))
         formatted_imei = " ".join([formatted_imei[i:i+4] for i in range(0, 15, 4)]) #Not gonna lie not sure why I did this but its still here
         return formatted_imei
-
+    
 def print_data(df):
-    #df["IMEI"] = df["IMEI"].apply(format_imei)  # Perils of not preprocessing data properly
     print("\nImported Data Preview:\n")
-    print(df.to_string())
+    # Select the specified columns (using a list for multiple columns)
+    subset_df = df[["A Number", "B Number","Start Time", "Location", "Latitude", "Longitude"]]  # Enclose column names in a list
+    print(subset_df.to_string())
 
 def analyze_cdr_data(df):
     while True:
@@ -177,13 +216,12 @@ def analyze_cdr_data(df):
             print("Invalid choice. Please try again.")
 
 def identify_frequent_callers(df):
-    numbers_to_remove = set(df["PartyA"])  # Create a set of numbers in PartyA for efficient removal
-    df = df[~df["PartyB"].isin(numbers_to_remove)]  # Remove rows where PartyB is in the set
-    top_callers = df["PartyB"].value_counts().head(5)  # Count occurrences in the modified DataFrame
+    
+    top_callers = df["B Number"].value_counts().head(5)  # Count occurrences in the modified DataFrame
 
     for number, frequency in top_callers.items():
-        first_appearance = df.loc[df["PartyB"] == number, "LogDate"].min()
-        last_appearance = df.loc[df["PartyB"] == number, "LogDate"].max()
+        first_appearance = df.loc[df["B Number"] == number, "Start Time"].min()
+        last_appearance = df.loc[df["B Number"] == number, "Start Time"].max()
 
         print("\n______________________________________________________________________________________________________")
         print("Number\t\t\tFirst Appearance in CDR\t\tLast Appearance in CDR\t\tComm Frequency")
@@ -197,8 +235,8 @@ def analyze_imei_data(df):
     print(f"\nThere are a total of {number_of_imeis} unique IMEIs in the data.")
 
     for imei in unique_imeis:
-        first_appearance = df.loc[df["IMEI"] == imei, "LogDate"].min()
-        last_appearance = df.loc[df["IMEI"] == imei, "LogDate"].max()
+        first_appearance = df.loc[df["IMEI"] == imei, "Start Time"].min()
+        last_appearance = df.loc[df["IMEI"] == imei, "Start Time"].max()
 
         print("\n________________________________________________________________________________________________________")
         print("IMEI\t\t\tFirst use\t\tLast use")
@@ -207,11 +245,11 @@ def analyze_imei_data(df):
 
 def analyze_location_data(df):
     # Identify most frequent 5 addresses
-    df_fitered = df[df[["LAT", "LNG", "ADDR"]].notnull().all(axis=1)]
-    top_locations = df_fitered.groupby("ADDR").agg(
-        count=("ADDR", "count"),
-        lat=("LAT", "first"),
-        lng=("LNG", "first")
+    df_fitered = df[df[["Latitude", "Longitude", "Location"]].notnull().all(axis=1)]
+    top_locations = df_fitered.groupby("Location").agg(
+        count=("Location", "count"),
+        lat=("Latitude", "first"),
+        lng=("Longitude", "first")
     ).sort_values(by=["count"], ascending=False).head(5)
 
     # Print detailed information for each top location
@@ -220,16 +258,16 @@ def analyze_location_data(df):
         print(f"{i}.\n------------------------------------------------------------------------------")
         print(f"Location Address:    {addr} (No. {i} Frequent)")
         print(f"Location Coordinates: {details['lat']:.6f}, {details['lng']:.6f}")
-        print(f"Location Visit Details (Chronological Timestamps from LogDate):\n")
-        for timestamp in df.loc[df["ADDR"] == addr, "LogDate"].sort_values():
+        print(f"Location Visit Details (Chronological Timestamps from Start Time):\n")
+        for timestamp in df.loc[df["Location"] == addr, "Start Time"].sort_values():
             print(f"    {timestamp}")
         print("__________________________\n")
         print("\nLocations Summary\n")
     print("------------------------------------------------------------------------------")
     print("Top 5 Location Addresses along with coordinates are:\n")
     for i, (addr, details) in enumerate(top_locations.iterrows(), start=1):
-        first_visit = df.loc[df["ADDR"] == addr, "LogDate"].min()
-        last_visit = df.loc[df["ADDR"] == addr, "LogDate"].max()
+        first_visit = df.loc[df["Location"] == addr, "Start Time"].min()
+        last_visit = df.loc[df["Location"] == addr, "Start Time"].max()
         print(f"{i}.{addr},with coordinates {details['lat']:.6f}, {details['lng']:.6f}\n First Appeared {first_visit},Last Appeared {last_visit}\n and appeared ({int(details['count'])}) times\n")
     print("______________________________________________________________________________\n\n")
 
@@ -246,17 +284,17 @@ def search_for_contact(df):
     contact_number = input("Enter the contact number to search: ")
 
     # Filter DataFrame for matching records
-    filtered_df = df[df["PartyB"] == contact_number]
+    filtered_df = df[df["B Number"] == contact_number]
 
     # Print header if any matches found
     if not filtered_df.empty:
         print(f"\nCommunication with {contact_number}")
         print("------------------------------------------------------------------------------")
-        print("PartyA\t\tPartyB\t\tLogDate\t\t\tIMEI\t\t\tADDR")
+        print("A Number\t\tPartyB\t\tLogDate\t\t\tIMEI\t\t\tADDR")
 
         # Print formatted entries
         for index, row in filtered_df.iterrows():
-            print(f"{row['PartyA']}\t{row['PartyB']}\t{row['LogDate']}\t{row['IMEI']}\t{row['ADDR']}")
+            print(f"{row['A Number']}\t{row['B Number']}\t{row['Start Time']}\t{row['IMEI']}\t{row['Location']}")
 
         print("------------------------------------------------------------------------------")
     else:
