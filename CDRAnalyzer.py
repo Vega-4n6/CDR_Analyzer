@@ -170,6 +170,86 @@ def print_data(df):
     subset_df = df[["A Number", "B Number","Start Time", "Location", "Latitude", "Longitude"]]  # Enclose column names in a list
     print(subset_df.to_string())
 
+"""
+def search_contact_date(df):
+
+    try:
+        # Get user input for contact and date range
+        contact = input("Enter the contact to search: ")
+        start_date = pd.to_datetime(input("Enter the start date (YYYY-MM-DD): "))
+        end_date = pd.to_datetime(input("Enter the end date (YYYY-MM-DD): "))
+        print(start_date)
+        print(end_date)
+        # Apply filtering conditions
+        filtered_df = df[
+            (df["A Number"] == contact) | (df["B Number"] == contact)
+        ]
+
+        
+        filtered_df["Start Time"] = pd.to_datetime(filtered_df["Start Time"])
+        print(filtered_df)
+        filtered_df = filtered_df[
+            (filtered_df["Start Time"] >= start_date) & (filtered_df["Start Time"] <= end_date)
+        ]
+        print(filtered_df)
+        # Display results
+        if not filtered_df.empty:
+            print("\nResults for", contact, "within the date range:")
+            print(filtered_df)
+        else:
+            print("\nNo results found for the specified contact and date range.")
+
+        return filtered_df
+
+    except ValueError as e:
+        print("Invalid date format. Please enter dates in YYYY-MM-DD format.")
+        return None
+"""
+def search_contact_date(df):
+    """
+    Searches for a specific contact and date range within a DataFrame.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame to search.
+
+    Returns:
+        pandas.DataFrame: The filtered DataFrame containing results, or None if no results found or errors occur.
+    """
+
+    try:
+        # Get user input for contact and date range
+        contact = input("Enter the contact to search (B Number): ")
+        start_date_str = input("Enter the start date and time (YYYY-MM-DD HH:MM:SS): ")
+        end_date = pd.to_datetime(input("Enter the end date (YYYY-MM-DD HH:MM:SS): "))
+
+        # Convert start date string to datetime object, including time
+        start_date = pd.to_datetime(start_date_str)
+
+        # Filter DataFrame
+        df_filtered_by_number = df[df["B Number"] == contact]  # Filter by B Number
+        df_with_datetime = df_filtered_by_number.copy()  # Create an explicit copy for datetime conversion
+        df_with_datetime["Start Time"] = pd.to_datetime(df_with_datetime["Start Time"])  # Convert "Start Time"
+
+        df_filtered_by_date = df_with_datetime[
+        (df_with_datetime["Start Time"] >= start_date) & (df_with_datetime["Start Time"] <= end_date)
+        ]
+
+        # Display results
+        if not df_with_datetime.empty:
+            print("\nResults for", contact, "between the date and time range:")
+            sub_df = df_with_datetime[["A Number", "B Number", "Start Time", "Location", "Latitude", "Longitude"]]
+            print(sub_df.to_string())
+            #print(df_with_datetime)
+            return sub_df
+        else:
+            print("\nNo results found for the specified contact and date range.")
+            return None
+
+    except ValueError as e:
+        print("Invalid input format. Please enter valid dates, time, and contact information.")
+        return None
+
+    
 def analyze_cdr_data(df):
     while True:
         print("\nSelect analysis option:")
@@ -178,7 +258,7 @@ def analyze_cdr_data(df):
         print("2. Conduct IMEI analysis")
         print("3. Location Analysis")
         print("4. Search for Specific Contact")
-        print("5. Search for Sepecific Date")
+        print("5. Sort using Contact and Date Range")
         print("9. Exit")
         choice = input("Enter your choice: ")
 
@@ -208,7 +288,7 @@ def analyze_cdr_data(df):
             search_for_contact(df)
         elif choice == "5": 
             # Code for date search
-            analyze_location_data(df)
+            search_contact_date(df)
         
         elif choice == "9":
             break
@@ -308,6 +388,11 @@ def main():
     print_banner()
     file_path = input("Enter the path to the CDR data file: ")
     df = load_cdr_data(file_path)
+    print("Data type of 'Start Time' column:", df["Start Time"].dtype)
+    print("Number of empty cells in 'Start Time' column:", df["Start Time"].isna().sum())
+    df["Start Time"] = pd.to_datetime(df["Start Time"], format="%d/%m/%Y %H:%M")
+    #print("Data type of 'Start Time' column:", df["Start Time"].dtype)
+    #print(df["Start Time"])
     analyze_cdr_data(df)
 
 if __name__ == "__main__":
