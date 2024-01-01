@@ -1,7 +1,8 @@
 
 ![Screenshot 2023-12-31 002845](https://github.com/Vega-4n6/CDR_Analyzer/assets/84527483/8131510e-3b65-4703-b5b6-f2fd13d274ce)
 
-**# CDR Analyzer V.1.0 by Haider Ali**
+**# CDR Analyzer V.1.1 by Haider Ali** 
+Update v1.1.1:  Added new funtion that helps in formatting the data of uploaded CSV files.
 
 **A Python tool for analyzing Call Detail Records (CDRs) to extract valuable insights.**
 
