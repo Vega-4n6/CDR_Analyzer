@@ -105,7 +105,8 @@ For any queries or feedback.
 **##Credits Section**
 |  Name | Reason|
 |---|:---:|
-| Sana  | For understanding why I was up at 4 and not playing Dota or Civilization |
+| My Wife | For understanding why I was up at 4 and not playing Dota or Civilization |
+| Mr. Shahbaz Khan - Digital Forensics Expert | For testing and identifying major logical errors and output discrepencies|
 
 ##**For noobs like me if you got struck somewhere feel free to DM me I'll try to sort things out to the best of my ability.**##
 
