@@ -1,6 +1,9 @@
 
 ![Screenshot 2023-12-31 002845](https://github.com/Vega-4n6/CDR_Analyzer/assets/84527483/8131510e-3b65-4703-b5b6-f2fd13d274ce)
 
+##Check out how it works
+[LinkedIn Post](https://www.linkedin.com/posts/haideralisiddiki_opensource-dataanalysis-cdranalysis-activity-7147994051156365314-7_wj?utm_source=share&utm_medium=member_desktop)
+
 **# CDR Analyzer V.1.1 by Haider Ali** 
 Update v1.1.1:  Added new funtion that helps in formatting the data of uploaded CSV files.
 
