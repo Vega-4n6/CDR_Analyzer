@@ -7,6 +7,7 @@ import os
 def print_banner():
     print("=" * 50)
     print("CDR Analyzer by Haider Ali")
+    print("Version 1.01")
     print("=" * 50)
 def fancy_banner(banner_text, font_name="slant", enhancements=True):
     banner = pyfiglet.figlet_format(banner_text, font=font_name)
@@ -18,65 +19,6 @@ def fancy_banner(banner_text, font_name="slant", enhancements=True):
         banner = "\n".join(enhanced_banner)
     return banner
 
-
-"""
-def data_standardization(df):
-    print("\nColumn names and data types of uploaded CSV file:")
-    for col_name, dtype in df.dtypes.items():
-        print(f"({dtype}) \t\t {col_name}")
-
-    expected_columns = {  # Unindent to function level
-        "A Number": None,
-        "B Number": None,
-        "Start Time": None,
-        "IMEI": None,
-        "Longitude": None,
-        "Latitude": None,
-        "Location": None,
-    }
-    print("\n\nFollowing columns are required by this code to work properly\n")
-    print("A Number:\t\t Column containing MSISDN (Phone Number) of the person whose CDR is under analysis")
-    print("B Number:\t\t Column containing MSISDN (Phone Number) of communication parties")
-    print("Start Time:\t Column containing Dates at which the event is logged. Most commonly available is CALL_ORIGINATING_TIME")
-    print("IMEI:\t\t Column containing IMEI of the used Device")
-    print("Longitude:\t\t Column containing Longitude of the tower location")
-    print("Latitude:\t\t Column containing lattitude of the tower location")
-    print("Location:\t\t Column containing Address of the tower location")
-    print("\nIdentify these columns in your code and input there names\n")
-    
-    for col_name in expected_columns.keys():
-        while True:
-            user_input = input(f"Which column is {col_name}? ")
-            if user_input in df.columns:
-                expected_columns[col_name] = user_input
-                break
-            else:
-                print(f"Invalid column name. Please enter a valid column from the list.")
-
-    # Rename columns based on user input
-    print(expected_columns[col_name])
-    df.rename(columns=expected_columns, inplace=True)
-
-    # Check for empty cells in expected columns
-    empty_cells = df[expected_columns.values()].isnull().sum()
-    print("Empty cells in expected columns:")
-    print(empty_cells)
-
-    # Print stats for expected columns
-    print("Stats for expected columns:")
-    print(df[expected_columns.values()].describe())
-
-    # Convert IMEI column to int64
-    print("Number of NA values in IMEI column:", df["IMEI"].isna().sum())
-    df["IMEI"] = df["IMEI"].astype("string")  # Cast to string dtype
-    df["IMEI"].fillna("-1", inplace=True)
-
-    #print("Number of inf values in IMEI column:", df["IMEI"].isinf().sum())
-    #if df["IMEI"].dtype == "float64":
-    #    df["IMEI"] = df["IMEI"].astype("int64")
-    df = df[expected_columns.values()]
-    return df
-"""
 def data_standardization(df):
     print("\nColumn names and data types of uploaded CSV file:")
     for col_name, dtype in df.dtypes.items():
@@ -209,16 +151,7 @@ def search_contact_date(df):
         return None
 """
 def search_contact_date(df):
-    """
-    Searches for a specific contact and date range within a DataFrame.
-
-    Args:
-        df (pandas.DataFrame): The DataFrame to search.
-
-    Returns:
-        pandas.DataFrame: The filtered DataFrame containing results, or None if no results found or errors occur.
-    """
-
+   
     try:
         # Get user input for contact and date range
         contact = input("Enter the contact to search (B Number): ")
@@ -238,9 +171,10 @@ def search_contact_date(df):
         ]
 
         # Display results
-        if not df_with_datetime.empty:
+        #if not df_with_datetime.empty:
+        if not df_filtered_by_date.empty:
             print("\nResults for", contact, "between the date and time range:")
-            sub_df = df_with_datetime[["A Number", "B Number", "Start Time", "Location", "Latitude", "Longitude"]]
+            sub_df = df_filtered_by_date[["A Number", "B Number", "Start Time", "Location", "Latitude", "Longitude"]]
             print(sub_df.to_string())
             #print(df_with_datetime)
             return sub_df
