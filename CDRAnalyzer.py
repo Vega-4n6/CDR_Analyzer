@@ -3,16 +3,12 @@ import pandas as pd
 import pyfiglet
 #import folium #for future map plotting capablity 
 import os
-
-def print_banner():
-    print("=" * 50)
-    print("CDR Analyzer by Haider Ali")
-    print("Version 1.01")#!usr/bin/python3
-import pandas as pd
-import pyfiglet
-#import folium #for future map plotting capablity 
-import os
 import datetime
+
+#def print_banner():
+#   print("=" * 50)
+#    print("CDR Analyzer by Haider Ali")
+#    print("Version 1.01")
 
 def print_banner():
     print("=" * 50)
@@ -72,7 +68,6 @@ def data_standardization(df):
 
     return df
 
-
 def load_cdr_data(file_path):
     try:
         df = pd.read_csv(file_path)
@@ -125,41 +120,6 @@ def print_data(df):
     subset_df = df[["A Number", "B Number","Start Time", "Location", "Latitude", "Longitude"]]  # Enclose column names in a list
     print(subset_df.to_string())
 
-"""
-def search_contact_date(df):
-
-    try:
-        # Get user input for contact and date range
-        contact = input("Enter the contact to search: ")
-        start_date = pd.to_datetime(input("Enter the start date (YYYY-MM-DD): "))
-        end_date = pd.to_datetime(input("Enter the end date (YYYY-MM-DD): "))
-        print(start_date)
-        print(end_date)
-        # Apply filtering conditions
-        filtered_df = df[
-            (df["A Number"] == contact) | (df["B Number"] == contact)
-        ]
-
-        
-        filtered_df["Start Time"] = pd.to_datetime(filtered_df["Start Time"])
-        print(filtered_df)
-        filtered_df = filtered_df[
-            (filtered_df["Start Time"] >= start_date) & (filtered_df["Start Time"] <= end_date)
-        ]
-        print(filtered_df)
-        # Display results
-        if not filtered_df.empty:
-            print("\nResults for", contact, "within the date range:")
-            print(filtered_df)
-        else:
-            print("\nNo results found for the specified contact and date range.")
-
-        return filtered_df
-
-    except ValueError as e:
-        print("Invalid date format. Please enter dates in YYYY-MM-DD format.")
-        return None
-"""
 def search_contact_date(df):
    
     try:
