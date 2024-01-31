@@ -245,7 +245,7 @@ def analyze_imei_data(df):
 
 def analyze_location_data(df):
     # Identify most frequent 5 addresses
-    df_fitered = df[df[["Latitude", "Longitude", "Location"]].notnull().all(axis=1)]
+    df_fitered = df[df[["Latitude", "Longitude", "Location"]].all(axis=1)]
     top_locations = df_fitered.groupby("Location").agg(
         count=("Location", "count"),
         lat=("Latitude", "first"),
